@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body{
+        background: linear-gradient(135deg, #6e8efb, #9868d3);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .container{
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        width: 90%;
+        overflow: hidden;
+        text-align: center;
+    }
+    .header{
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+    }
+    h1{
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    .tagline{
+        font-size: italic;
+        opacity: 0.8;
+    }
+    .content{
+        padding: 25px;
+    }
+    .joke-container{
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+    .joke-text{
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #2c3e50;
+        margin-top: 15px;
+        display: none;
+    }
+    .punchline{
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #a777e3;
+        margin-top: 10px;
+        display: none;
+    }
+    .buttons{
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    button{
+        background: #6e8efb;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    button:hover{
+        background: #5a7df9;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active{
+        background: #a777e3;
+    }
+    #reveal-btn{
+        background: #a777e3;
+    }
+    #reveal-btn:hover{
+        background: #9566d3;
+    }
+    .footer{
+        background: #f8f9fa;
+        padding: 15px;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    .type-buttons{
+        display: flex;
+        justify-content: center;
+       gap: 10px;
+       margin-bottom: 20px;
+    }
+    .type-btn{
+        background: #c8d5e2;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    .type-btn.active{
+        background: #6e8efb;
+        color: white;
+    }
+    .emoji{
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    @media (max-width: 500px){
+        .joke-text{
+            font-size: 1.2rem;
+        }
+        button{
+                padding: 10px 20px;
+        }
+        .buttons{
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    .link-button{
+        color: #6c757d;
+        border: none;
+        border-radius: 5px;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: 600;
+        transition: color 0.7s ease-in-out;
+    }
+    .link-button:hover{
+        color: #4a4f53;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DevLaughs</h1>
+            <p class="tagline">Programming humour for devs who gets it</p>
+        </div>
+        <div class="content">
+            <div class="emoji">💻</div>
+            <div class="type-buttons">
+                <button class="type-btn active" id="joke-btn">Jokes</button>
+                <button class="type-btn" id="riddle-btn">Riddles</button>
+            </div>
+            <div class="joke-container">
+                <p class="joke-text">Why do programmers prefer dark mode</p>
+                <p class="punchline">Because light attracts bugs!</p>
+            </div>
+            <div class="buttons">
+                <button id="reveal-btn">Reveal Punchline</button>
+                <button id="next-btn">Next Joke</button>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Share with your dev friends!😂<br><br>Join <a href="https://whatsapp.com/channel/0029VbB0FxL2975BP8JzWx0Y" class="link-button" target="_blank">DevLaughs</a> on WhatsApp</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function (){
+            const jokeText = document.querySelector('.joke-text');
+            const punchline = document.querySelector('.punchline');
+            const revealBtn = document.getElementById('reveal-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const jokeBtn = document.getElementById('joke-btn');
+            const riddleBtn = document.getElementById('riddle-btn')
+            const emoji = document.querySelector('.emoji');
+
+            let currentType = 'jokes';
+
+            const content = {
+                jokes: [
+                  {
+                    joke: "Why do programmers prefer dark mode?",
+                    punchline: "Because light attracts bug"
+                  },
+                  {
+                    joke: "Why did the programmer quit his job?",
+                    punchline: "He didn't get arrays!"
+                  },
+                  {
+                    joke: "What's a programmer's favorite hangout place?",
+                    punchline: "The Foo Bar!"
+                  },
+                  {
+                    joke: "Why do Java developers wear glasses",
+                    punchline: "Because they can't C#!"
+                  },
+                  {
+                    joke: "Why was the JavaScript developer sad?",
+                    punchline: "He didn't know how to 'null' his feelings!"
+                  },
+                  {
+                    joke: "I changed my password to 'incorrect'.....",
+                    punchline: 'so whenever i forget, it tells me: "Your password is incorrect"'
+                  },
+                  {
+                    joke: "Why did the website go to therapy",
+                    punchline: "It kept taking cookies"
+                  },
+                  {
+                    joke: "CSS jokes are the worst.......",
+                    punchline: "Because they always get styled over your head"
+                  },
+                  {
+                    joke: "Why did the programmer go broke?",
+                    punchline: "Because he lost his arrays of income."
+                  },
+                  {
+                    joke: "What's JavaScript favorite band",
+                    punchline: "JSON and the Stringifiers"
+                  }
+                ],
+                riddles: [
+                    {
+                        joke: "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+                        punchline: "An echo...but in programming, I'm a function callback!"
+                    },
+                    {
+                        joke: "What has keys but can't open locks?",
+                        punchline: "A keyboard! (And also a JavaScript object)"
+                    },
+                    {
+                        joke: "What is always coming but never arrives",
+                        punchline: "Tomorrow... or the next JavaScript Framework!.... or Gta6🤔"
+                    },
+                    {
+                        joke: "I'm not a god, not a king, but i can make a developer bend to my will. What am I?",
+                        punchline: "A bug in production"
+                    },
+                    {
+                        joke: "I contain instructions, but I am not a manual, I get compiled, but I'm not a book. What am i?",
+                        punchline: "Source Code!"
+                    },
+                    {
+                        joke: "I'm always true or false but never maybe. What am i?",
+                        punchline: "A Boolean"
+                    },
+                    {
+                        joke: "You use me to escape,but I'm not a door. I help break lines, but I'm not scissors. What am i",
+                        punchline: "A backslash"
+                    },
+                    {
+                        joke: "You debug me when am sick,patch me when I'm broken,but you fear me when I'm silent. What am I?",
+                        punchline: "A program"
+                    }
+                ]
+            };
+            let currentIndex = 0;
+            //Function to update content
+            function updateContent() {
+                punchline.style.display = 'none';
+                revealBtn.textContent = 'Reveal'+ (currentType === 'jokes' ? 'punchline' : 'Answer');
+                const currentContent = content[currentType] [currentIndex];
+                jokeText.textContent = currentContent.joke;
+                jokeText.style.display = 'block'
+                punchline.textContent = currentContent.punchline;
+                jokeBtn.style.display = 'block'
+                //updating emoji
+                emoji.textContent = currentType === 'jokes' ? '💻' : '🤔';
+            }
+            //listeners for buttons
+            revealBtn.addEventListener('click', function() {
+                punchline.style.display = 'block';
+            });
+            nextBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % content[currentType].length;
+                updateContent()
+            });
+            jokeBtn.addEventListener('click', function(){
+                currentType = 'jokes';
+                currentIndex = 0;
+                jokeBtn.classList.add('active');
+                riddleBtn.classList.remove('active');
+                updateContent();
+            });
+            riddleBtn.addEventListener('click', function(){
+                currentType = 'riddles';
+                currentIndex = 0;
+                riddleBtn.classList.add('active');
+                jokeBtn.classList.remove('remove');
+                updateContent();
+            });
+            //Initialize with first joke
+            updateContent();
+        })
+    </script>
+</body>
+</html>
